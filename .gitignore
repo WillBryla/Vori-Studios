@@ -1,2 +1,5 @@
 temporary screenshots/
 CLAUDE.md
+.env
+.env.local
+.env*.local
