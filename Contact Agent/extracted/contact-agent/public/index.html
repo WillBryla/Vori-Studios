@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0f1729;
+      font-family: 'DM Sans', sans-serif;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+
+    .form-wrap { max-width: 860px; margin: 0 auto; }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .field { display: flex; flex-direction: column; gap: 8px; margin-bottom: 1.5rem; }
+
+    .field label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: #c8d8e8;
+      text-transform: uppercase;
+    }
+
+    .field label span { color: #5ee8b0; margin-left: 2px; }
+
+    .field input,
+    .field textarea {
+      background: #1a2540;
+      border: 1.5px solid #2a3a5a;
+      border-radius: 12px;
+      padding: 16px 20px;
+      font-size: 15px;
+      color: #e8f0f8;
+      font-family: 'DM Sans', sans-serif;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+      width: 100%;
+    }
+
+    .field input::placeholder,
+    .field textarea::placeholder { color: #4a5a7a; }
+
+    .field input:focus,
+    .field textarea:focus {
+      border-color: #5ee8b0;
+      box-shadow: 0 0 0 3px rgba(94, 232, 176, 0.08);
+    }
+
+    .field textarea { resize: vertical; min-height: 180px; }
+
+    .bottom { display: flex; align-items: center; gap: 1.5rem; margin-top: 0.5rem; }
+
+    .required-note { font-size: 13px; color: #5a6a8a; }
+    .required-note span { color: #5ee8b0; }
+
+    .btn {
+      background: #b8f5d4;
+      color: #0a1f14;
+      border: none;
+      border-radius: 12px;
+      padding: 18px 36px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.2s, transform 0.1s;
+      font-family: 'DM Sans', sans-serif;
+      white-space: nowrap;
+    }
+
+    .btn:hover { background: #8aefc0; }
+    .btn:active { transform: scale(0.98); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .status {
+      margin-top: 1.5rem;
+      padding: 16px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      display: none;
+    }
+
+    .status.success {
+      background: #0d2e1e;
+      border: 1.5px solid #2a7a50;
+      color: #5ee8b0;
+      display: block;
+    }
+
+    .status.error {
+      background: #2e0d0d;
+      border: 1.5px solid #7a2a2a;
+      color: #f08080;
+      display: block;
+    }
+
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid #0a1f14;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 600px) {
+      .row { grid-template-columns: 1fr; }
+      body { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="form-wrap">
+    <div class="row">
+      <div class="field">
+        <label>Full Name <span>*</span></label>
+        <input id="fullName" type="text" placeholder="Jane Smith" />
+      </div>
+      <div class="field">
+        <label>Email Address <span>*</span></label>
+        <input id="email" type="email" placeholder="jane@company.com" />
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Business Name <span>*</span></label>
+      <input id="business" type="text" placeholder="Your Business LLC" />
+    </div>
+
+    <div class="field">
+      <label>Message</label>
+      <textarea id="message" placeholder="Tell me a bit about your project — what you need, what's not working, or just what you're thinking. No wrong answers."></textarea>
+    </div>
+
+    <div class="bottom">
+      <button class="btn" id="sendBtn" onclick="sendMessage()">
+        <span id="btnText">Send Message</span>
+        <span id="btnArrow">→</span>
+        <div class="spinner" id="spinner" style="display:none;"></div>
+      </button>
+      <span class="required-note"><span>*</span> Required fields</span>
+    </div>
+
+    <div class="status" id="status"></div>
+  </div>
+
+  <script>
+    async function sendMessage() {
+      const fullName = document.getElementById('fullName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const business = document.getElementById('business').value.trim();
+      const message = document.getElementById('message').value.trim();
+      const statusEl = document.getElementById('status');
+      const btn = document.getElementById('sendBtn');
+      const spinner = document.getElementById('spinner');
+      const btnArrow = document.getElementById('btnArrow');
+      const btnText = document.getElementById('btnText');
+
+      statusEl.className = 'status';
+      statusEl.textContent = '';
+
+      if (!fullName || !email || !business) {
+        statusEl.className = 'status error';
+        statusEl.textContent = 'Please fill in all required fields.';
+        return;
+      }
+
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        statusEl.className = 'status error';
+        statusEl.textContent = 'Please enter a valid email address.';
+        return;
+      }
+
+      btn.disabled = true;
+      spinner.style.display = 'block';
+      btnArrow.style.display = 'none';
+      btnText.textContent = 'Sending...';
+
+      try {
+        const res = await fetch('/api/send-message', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fullName, email, business, message }),
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          statusEl.className = 'status success';
+          statusEl.textContent = '✓ Message sent! Will typically responds within 24 hours.';
+          document.getElementById('fullName').value = '';
+          document.getElementById('email').value = '';
+          document.getElementById('business').value = '';
+          document.getElementById('message').value = '';
+        } else {
+          throw new Error(data.error || 'Unknown error');
+        }
+      } catch (err) {
+        statusEl.className = 'status error';
+        statusEl.textContent = 'Something went wrong: ' + err.message;
+      } finally {
+        btn.disabled = false;
+        spinner.style.display = 'none';
+        btnArrow.style.display = 'inline';
+        btnText.textContent = 'Send Message';
+      }
+    }
+  </script>
+</body>
+</html>

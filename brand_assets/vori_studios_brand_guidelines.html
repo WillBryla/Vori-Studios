@@ -1,0 +1,163 @@
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Montserrat', sans-serif; }
+  .bg { background: #112240; min-height: 100vh; padding: 48px 32px; }
+  .section-label { font-size: 10px; font-weight: 600; letter-spacing: 0.2em; color: #6b8cae; text-transform: uppercase; margin-bottom: 16px; }
+  .section { margin-bottom: 48px; }
+  .divider { border: none; border-top: 0.5px solid rgba(255,255,255,0.08); margin-bottom: 48px; }
+  .logo-display { display: flex; align-items: center; justify-content: center; background: #1a3a6b; border-radius: 12px; padding: 48px 32px; margin-bottom: 12px; }
+  .logo-text { font-family: 'Montserrat', sans-serif; font-size: 36px; font-weight: 700; color: #7ee8c4; letter-spacing: 0.04em; }
+  .logo-tag { font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 400; color: #7ee8c4; letter-spacing: 0.12em; text-align: center; margin-top: 6px; opacity: 0.75; }
+  .logo-display-light { background: #f4f6f8; }
+  .logo-text-dark { color: #1a3a6b; }
+  .logo-tag-dark { color: #1a3a6b; }
+  .colors-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+  .color-chip { border-radius: 10px; overflow: hidden; }
+  .color-swatch { height: 72px; }
+  .color-info { padding: 10px 12px; background: #1a3a6b; }
+  .color-name { font-size: 11px; font-weight: 600; color: #e8f4ff; letter-spacing: 0.05em; }
+  .color-hex { font-size: 10px; color: #6b8cae; margin-top: 2px; font-family: monospace; }
+  .color-role { font-size: 9px; color: #4a6a8a; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .type-row { background: #1a3a6b; border-radius: 10px; padding: 20px 24px; margin-bottom: 10px; }
+  .type-sample { color: #7ee8c4; }
+  .type-meta { font-size: 10px; color: #4a6a8a; margin-top: 6px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .usage-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .usage-card { background: #1a3a6b; border-radius: 10px; padding: 16px 20px; }
+  .usage-title { font-size: 11px; font-weight: 600; color: #7ee8c4; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+  .usage-text { font-size: 12px; color: #6b8cae; line-height: 1.6; }
+  .dont { border-left: 2px solid #c0392b; }
+  .do { border-left: 2px solid #7ee8c4; }
+  .spacing-row { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; }
+  .spacing-box { background: #7ee8c4; border-radius: 3px; }
+  .spacing-label { font-size: 11px; color: #6b8cae; }
+  .page-title { font-size: 13px; font-weight: 700; color: #7ee8c4; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 4px; }
+  .page-sub { font-size: 11px; color: #4a6a8a; letter-spacing: 0.08em; margin-bottom: 48px; }
+</style>
+
+<div class="bg">
+  <p class="page-title">Vori Studios</p>
+  <p class="page-sub">Brand Guidelines — v1.0</p>
+
+  <div class="section">
+    <p class="section-label">Logo — Primary (Dark)</p>
+    <div class="logo-display">
+      <div>
+        <p class="logo-text">VORI STUDIOS</p>
+        <p class="logo-tag">BUILT TO CONVERT, NOT JUST IMPRESS</p>
+      </div>
+    </div>
+    <p class="section-label" style="margin-top:16px;">Logo — Reversed (Light)</p>
+    <div class="logo-display logo-display-light">
+      <div>
+        <p class="logo-text logo-text-dark">VORI STUDIOS</p>
+        <p class="logo-tag logo-tag-dark">BUILT TO CONVERT, NOT JUST IMPRESS</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section">
+    <p class="section-label">Color Palette</p>
+    <div class="colors-grid">
+      <div class="color-chip">
+        <div class="color-swatch" style="background:#112240;"></div>
+        <div class="color-info">
+          <p class="color-name">Deep Navy</p>
+          <p class="color-hex">#112240</p>
+          <p class="color-role">Page Background</p>
+        </div>
+      </div>
+      <div class="color-chip">
+        <div class="color-swatch" style="background:#1a3a6b;"></div>
+        <div class="color-info">
+          <p class="color-name">Brand Navy</p>
+          <p class="color-hex">#1A3A6B</p>
+          <p class="color-role">Primary Brand</p>
+        </div>
+      </div>
+      <div class="color-chip">
+        <div class="color-swatch" style="background:#7ee8c4;"></div>
+        <div class="color-info">
+          <p class="color-name">Mint</p>
+          <p class="color-hex">#7EE8C4</p>
+          <p class="color-role">Primary Accent</p>
+        </div>
+      </div>
+      <div class="color-chip">
+        <div class="color-swatch" style="background:#f4f6f8;"></div>
+        <div class="color-info">
+          <p class="color-name">Off White</p>
+          <p class="color-hex">#F4F6F8</p>
+          <p class="color-role">Light Background</p>
+        </div>
+      </div>
+      <div class="color-chip">
+        <div class="color-swatch" style="background:#6b8cae;"></div>
+        <div class="color-info">
+          <p class="color-name">Slate</p>
+          <p class="color-hex">#6B8CAE</p>
+          <p class="color-role">Secondary Text</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section">
+    <p class="section-label">Typography</p>
+    <div class="type-row">
+      <p class="type-sample" style="font-size:28px;font-weight:700;letter-spacing:0.05em;">VORI STUDIOS</p>
+      <p class="type-meta">Montserrat Bold 700 — Wordmark / Headlines</p>
+    </div>
+    <div class="type-row">
+      <p class="type-sample" style="font-size:14px;font-weight:600;letter-spacing:0.12em;">BUILT TO CONVERT, NOT JUST IMPRESS</p>
+      <p class="type-meta">Montserrat Semibold 600 — Tagline / Subheads</p>
+    </div>
+    <div class="type-row">
+      <p class="type-sample" style="font-size:14px;font-weight:400;line-height:1.7;">We build websites that work as hard as you do. Clean, fast, and conversion-focused from day one.</p>
+      <p class="type-meta">Montserrat Regular 400 — Body Copy</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section">
+    <p class="section-label">Do's and Don'ts</p>
+    <div class="usage-grid">
+      <div class="usage-card do">
+        <p class="usage-title">Do</p>
+        <p class="usage-text">Use navy as the primary background. Use mint for key text and accents only. Keep plenty of white space. Use Montserrat exclusively.</p>
+      </div>
+      <div class="usage-card dont">
+        <p class="usage-title" style="color:#e74c3c;">Don't</p>
+        <p class="usage-text">Don't use bright blue, gold, or maroon. Don't mix fonts. Don't use drop shadows on the wordmark. Don't put the logo on busy backgrounds.</p>
+      </div>
+      <div class="usage-card do">
+        <p class="usage-title">Do</p>
+        <p class="usage-text">Always maintain strong contrast. The wordmark on navy or white only. Keep tagline smaller than the wordmark at all times.</p>
+      </div>
+      <div class="usage-card dont">
+        <p class="usage-title" style="color:#e74c3c;">Don't</p>
+        <p class="usage-text">Don't stretch or distort the logo. Don't use all caps for body copy. Don't use the monospaced or serif fonts anywhere in brand materials.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section">
+    <p class="section-label">Brand Voice</p>
+    <div class="usage-card" style="background:#1a3a6b; border-radius:10px; padding:20px 24px;">
+      <p class="usage-text" style="color:#aecde8; line-height:1.9; font-size:13px;">
+        <span style="color:#7ee8c4; font-weight:600;">Direct.</span> Say what you mean. No filler words.<br>
+        <span style="color:#7ee8c4; font-weight:600;">Confident.</span> You know your craft. Act like it.<br>
+        <span style="color:#7ee8c4; font-weight:600;">Outcome-focused.</span> Clients want results, not aesthetics lectures.<br>
+        <span style="color:#7ee8c4; font-weight:600;">Clean.</span> No jargon. No corporate speak. No buzzwords.
+      </p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vori Studios — Built to Convert, Not Just Impress</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'deep-navy': '#112240',
+            'brand-navy': '#1a3a6b',
+            'mint': '#7ee8c4',
+            'slate-blue': '#6b8cae',
+            'offwhite': '#f4f6f8',
+          },
+          fontFamily: {
+            mont: ['Montserrat', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { font-family: 'Montserrat', sans-serif; box-sizing: border-box; }
+
+    body {
+      background: #112240;
+      color: #f4f6f8;
+      overflow-x: hidden;
+    }
+
+    /* Subtle grain texture */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ── Hero ── */
+    .hero-section {
+      background:
+        radial-gradient(ellipse 70% 55% at 75% 15%, rgba(126,232,196,0.07) 0%, transparent 65%),
+        radial-gradient(ellipse 55% 45% at 15% 85%, rgba(26,58,107,0.7) 0%, transparent 60%),
+        #112240;
+    }
+
+    /* ── Nav ── */
+    #navbar {
+      transition: background 0.35s ease, box-shadow 0.35s ease, backdrop-filter 0.35s ease;
+    }
+    #navbar.scrolled {
+      background: rgba(17,34,64,0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.05), 0 4px 24px rgba(0,0,0,0.3);
+    }
+
+    /* ── Nav links ── */
+    .nav-link {
+      font-size: 11px;
+      font-weight: 600;
+      color: #6b8cae;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .nav-link:hover { color: #7ee8c4; }
+    .nav-link:focus-visible { outline: 2px solid #7ee8c4; outline-offset: 4px; border-radius: 4px; }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      display: inline-block;
+      background: #7ee8c4;
+      color: #112240;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      border-radius: 10px;
+      padding: 14px 28px;
+      transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s ease, background 0.2s ease;
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(126,232,196,0.3), 0 4px 10px rgba(0,0,0,0.2);
+      background: #9aefd4;
+    }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-primary:focus-visible { outline: 2px solid #7ee8c4; outline-offset: 3px; }
+
+    .btn-ghost {
+      display: inline-block;
+      background: transparent;
+      color: #7ee8c4;
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      border-radius: 10px;
+      padding: 13px 28px;
+      border: 1.5px solid rgba(126,232,196,0.35);
+      transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), border-color 0.2s ease, background 0.2s ease;
+    }
+    .btn-ghost:hover {
+      transform: translateY(-3px);
+      border-color: #7ee8c4;
+      background: rgba(126,232,196,0.08);
+    }
+    .btn-ghost:active { transform: translateY(0); }
+    .btn-ghost:focus-visible { outline: 2px solid #7ee8c4; outline-offset: 3px; }
+
+    /* ── Cards ── */
+    .card {
+      background: #1a3a6b;
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 14px;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.35), 0 0 0 1px rgba(126,232,196,0.18);
+      border-color: rgba(126,232,196,0.18);
+    }
+
+    /* ── Section label ── */
+    .section-eyebrow {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      color: #6b8cae;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    /* ── Heading ── */
+    .h2 {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 700;
+      color: #f4f6f8;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+    }
+
+    /* ── Mint text underline ── */
+    .mint-line {
+      position: relative;
+      display: inline;
+      color: #7ee8c4;
+    }
+    .mint-line::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 100%;
+      height: 2.5px;
+      background: #7ee8c4;
+      border-radius: 2px;
+      opacity: 0.6;
+    }
+
+    /* ── Step number ── */
+    .step-badge {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(126,232,196,0.18), rgba(126,232,196,0.06));
+      border: 1px solid rgba(126,232,196,0.22);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ── Pricing ── */
+    .pricing-card {
+      background: #1a3a6b;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease;
+    }
+    .pricing-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .pricing-card-featured {
+      background: linear-gradient(160deg, #1a3a6b 0%, #1f4280 100%);
+      border: 1px solid rgba(126,232,196,0.3);
+      box-shadow: 0 0 0 1px rgba(126,232,196,0.08), 0 24px 80px rgba(0,0,0,0.35);
+    }
+    .pricing-card-featured:hover {
+      box-shadow: 0 0 0 1px rgba(126,232,196,0.15), 0 28px 80px rgba(0,0,0,0.4);
+    }
+
+    /* ── Check icon ── */
+    .check {
+      width: 18px;
+      height: 18px;
+      background: rgba(126,232,196,0.14);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── Divider ── */
+    .divider { height: 1px; background: rgba(255,255,255,0.05); }
+
+    /* ── Fade in animation ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .fade-up.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Stat ── */
+    .stat-num {
+      font-size: 32px;
+      font-weight: 700;
+      color: #7ee8c4;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 11px;
+      color: #4a6a8a;
+      letter-spacing: 0.06em;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ════════════════════════════ NAV ════════════════════════════ -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 px-6 lg:px-12 py-5">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <!-- Logo -->
+      <a href="landing.html" style="text-decoration:none;">
+        <p style="font-size:17px;font-weight:700;color:#7ee8c4;letter-spacing:0.07em;line-height:1;">VORI STUDIOS</p>
+        <p style="font-size:8px;font-weight:500;color:#4a6a8a;letter-spacing:0.15em;margin-top:3px;">BUILT TO CONVERT, NOT JUST IMPRESS</p>
+      </a>
+      <!-- Links -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#services" class="nav-link">Services</a>
+        <a href="#process" class="nav-link">Process</a>
+        <a href="#pricing" class="nav-link">Pricing</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="contact.html" class="btn-primary" style="padding:10px 22px;font-size:12px;">Send a Message</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ════════════════════════════ HERO ════════════════════════════ -->
+  <section class="hero-section min-h-screen flex items-center pt-28 pb-20 px-6 lg:px-12">
+    <div class="max-w-6xl mx-auto w-full">
+      <div class="max-w-3xl">
+        <p class="section-eyebrow fade-up" style="margin-bottom:20px;">Fredericksburg, TX — Web Development</p>
+        <h1 class="fade-up" style="font-size:clamp(44px,6.5vw,80px);font-weight:800;line-height:1.04;letter-spacing:-0.035em;color:#f4f6f8;margin-bottom:24px;">
+          I build websites<br>
+          <span class="mint-line">that get you customers.</span>
+        </h1>
+        <p class="fade-up" style="font-size:16px;font-weight:400;line-height:1.8;color:#6b8cae;max-width:500px;margin-bottom:40px;">
+          I'm Will — a developer from a small Texas town. I learned to code in engineering class and turned it into something real. Flat pricing, two-week delivery, and you talk directly to me — not an account manager.
+        </p>
+        <div class="fade-up flex flex-wrap gap-4 items-center">
+          <a href="contact.html" class="btn-primary">Start Your Project</a>
+          <a href="about.html" class="btn-ghost">About Me</a>
+        </div>
+
+        <!-- Stats bar -->
+        <div class="fade-up flex flex-wrap items-center gap-8 mt-14">
+          <div>
+            <p class="stat-num">14 days</p>
+            <p class="stat-label">Average Delivery</p>
+          </div>
+          <div style="width:1px;height:36px;background:rgba(255,255,255,0.08);"></div>
+          <div>
+            <p class="stat-num">100%</p>
+            <p class="stat-label">Custom Built</p>
+          </div>
+          <div style="width:1px;height:36px;background:rgba(255,255,255,0.08);"></div>
+          <div>
+            <p class="stat-num">3×</p>
+            <p class="stat-label">Avg. Lead Increase</p>
+          </div>
+          <div style="width:1px;height:36px;background:rgba(255,255,255,0.08);"></div>
+          <div>
+            <p class="stat-num">&lt;2s</p>
+            <p class="stat-label">Load Time Target</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════ SERVICES ════════════════════════════ -->
+  <section id="services" class="py-24 px-6 lg:px-12">
+    <div class="max-w-6xl mx-auto">
+      <p class="section-eyebrow fade-up">What I Build</p>
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+        <h2 class="h2 fade-up">The right build<br>for your business.</h2>
+        <p class="fade-up" style="font-size:13px;color:#6b8cae;line-height:1.75;max-width:340px;">Whether you're launching from scratch or replacing something that's been holding you back — I've built it before.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-5">
+
+        <!-- Landing Page Development -->
+        <div class="card fade-up" style="padding:32px;">
+          <div style="width:44px;height:44px;background:rgba(126,232,196,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;">
+            <svg width="20" height="20" fill="none" stroke="#7ee8c4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <h3 style="font-size:17px;font-weight:700;color:#f4f6f8;letter-spacing:-0.01em;margin-bottom:10px;">Landing Page Development</h3>
+          <p style="font-size:13px;color:#6b8cae;line-height:1.75;margin-bottom:24px;">A single, focused page built to convert visitors into leads. Fast, mobile-first, and optimized for one clear call to action.</p>
+          <div class="divider"></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;">
+            <p style="font-size:11px;font-weight:700;color:#7ee8c4;letter-spacing:0.06em;">From $500</p>
+            <p style="font-size:10px;color:#4a6a8a;letter-spacing:0.05em;">7-day timeline</p>
+          </div>
+        </div>
+
+        <!-- Webpage Development -->
+        <div class="card fade-up" style="padding:32px;">
+          <div style="width:44px;height:44px;background:rgba(126,232,196,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;">
+            <svg width="20" height="20" fill="none" stroke="#7ee8c4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <h3 style="font-size:17px;font-weight:700;color:#f4f6f8;letter-spacing:-0.01em;margin-bottom:10px;">Webpage Development</h3>
+          <p style="font-size:13px;color:#6b8cae;line-height:1.75;margin-bottom:24px;">A full multi-page site with a custom design system — built to communicate your value and bring in clients, not just traffic.</p>
+          <div class="divider"></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;">
+            <p style="font-size:11px;font-weight:700;color:#7ee8c4;letter-spacing:0.06em;">From $1,000</p>
+            <p style="font-size:10px;color:#4a6a8a;letter-spacing:0.05em;">14-day delivery</p>
+          </div>
+        </div>
+
+        <!-- Ecommerce Store -->
+        <div class="card fade-up" style="padding:32px;">
+          <div style="width:44px;height:44px;background:rgba(126,232,196,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;">
+            <svg width="20" height="20" fill="none" stroke="#7ee8c4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          </div>
+          <h3 style="font-size:17px;font-weight:700;color:#f4f6f8;letter-spacing:-0.01em;margin-bottom:10px;">Ecommerce Store</h3>
+          <p style="font-size:13px;color:#6b8cae;line-height:1.75;margin-bottom:24px;">Custom online stores built to sell. Product pages, checkout flows, and mobile-first experiences — quoted per project.</p>
+          <div class="divider"></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px;">
+            <p style="font-size:11px;font-weight:700;color:#7ee8c4;letter-spacing:0.06em;">Get a Quote</p>
+            <p style="font-size:10px;color:#4a6a8a;letter-spacing:0.05em;">Custom timeline</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════ PROCESS ════════════════════════════ -->
+  <section id="process" style="background:linear-gradient(180deg,rgba(26,58,107,0.18) 0%,rgba(26,58,107,0.08) 100%);border-top:1px solid rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.04);" class="py-24 px-6 lg:px-12">
+    <div class="max-w-6xl mx-auto">
+      <p class="section-eyebrow fade-up">How It Works</p>
+      <h2 class="h2 fade-up" style="margin-bottom:48px;">Simple. Fast. Done right.</h2>
+
+      <div class="grid md:grid-cols-4 gap-8">
+
+        <div class="fade-up">
+          <div class="step-badge" style="margin-bottom:20px;">
+            <span style="font-size:17px;font-weight:700;color:#7ee8c4;">01</span>
+          </div>
+          <h3 style="font-size:15px;font-weight:700;color:#f4f6f8;margin-bottom:10px;">Reach Out</h3>
+          <p style="font-size:13px;color:#6b8cae;line-height:1.75;">Send me a message and tell me what you need. I'll reply within 24 hours and we'll figure out if it's a good fit — no pitch, no pressure.</p>
+        </div>
+
+        <div class="fade-up">
+          <div class="step-badge" style="margin-bottom:20px;">
+            <span style="font-size:17px;font-weight:700;color:#7ee8c4;">02</span>
+          </div>
+          <h3 style="font-size:15px;font-weight:700;color:#f4f6f8;margin-bottom:10px;">Mockup</h3>
+          <p style="font-size:13px;color:#6b8cae;line-height:1.75;">I'll design a full mockup of your site and have it in your inbox in under 5 days. You'll see exactly what you're getting before I write a single line of code.</p>
+        </div>
+
+        <div class="fade-up">
+          <div class="step-badge" style="margin-bottom:20px;">
+            <span style="font-size:17px;font-weight:700;color:#7ee8c4;">03</span>
+          </div>
+          <h3 style="font-size:15px;font-weight:700;color:#f4f6f8;margin-bottom:10px;">Build &amp; Review</h3>
+          <p style="font-size:13px;color:#6b8cae;line-height:1.75;">Once you approve the mockup, I build it. When it's done I send the full site over for a final look — you sign off before anything goes live.</p>
+        </div>
+
+        <div class="fade-up">
+          <div class="step-badge" style="margin-bottom:20px;">
+            <span style="font-size:17px;font-weight:700;color:#7ee8c4;">04</span>
+          </div>
+          <h3 style="font-size:15px;font-weight:700;color:#f4f6f8;margin-bottom:10px;">Launch &amp; Test</h3>
+          <p style="font-size:13px;color:#6b8cae;line-height:1.75;">We publish the site, then my team tries to break it — bad links, broken forms, mobile issues, slow loads. If we find it, we fix it before you ever see it.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════ WHY VORI ════════════════════════════ -->
+  <section class="py-24 px-6 lg:px-12">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid md:grid-cols-2 gap-16 items-center">
+
+        <!-- Left -->
+        <div>
+          <p class="section-eyebrow fade-up">Why Vori Studios</p>
+          <h2 class="h2 fade-up" style="margin-bottom:16px;">One person.<br>Full accountability.</h2>
+          <p class="fade-up" style="font-size:14px;color:#6b8cae;line-height:1.8;margin-bottom:36px;">I'm not an agency. There's no account manager, no handoff to a junior dev you've never met. I build every page myself — which means honest pricing, fast turnaround, and someone who picks up the phone.</p>
+
+          <ul class="space-y-4 fade-up">
+            <li style="display:flex;align-items:flex-start;gap:12px;">
+              <div class="check"><svg width="9" height="9" fill="none" stroke="#7ee8c4" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <p style="font-size:13px;color:#aecde8;line-height:1.65;">Every line of code written from scratch. No Squarespace, no Wix, no $20 templates.</p>
+            </li>
+            <li style="display:flex;align-items:flex-start;gap:12px;">
+              <div class="check"><svg width="9" height="9" fill="none" stroke="#7ee8c4" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <p style="font-size:13px;color:#aecde8;line-height:1.65;">Delivered in 14 days or less. I don't have 30 clients ahead of you in a queue.</p>
+            </li>
+            <li style="display:flex;align-items:flex-start;gap:12px;">
+              <div class="check"><svg width="9" height="9" fill="none" stroke="#7ee8c4" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <p style="font-size:13px;color:#aecde8;line-height:1.65;">Text me directly. No ticket system, no "your request has been received."</p>
+            </li>
+            <li style="display:flex;align-items:flex-start;gap:12px;">
+              <div class="check"><svg width="9" height="9" fill="none" stroke="#7ee8c4" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <p style="font-size:13px;color:#aecde8;line-height:1.65;">You own everything — code, domain, content. No lock-in, ever.</p>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Right — quote card -->
+        <div class="fade-up">
+          <div style="background:#1a3a6b;border-radius:16px;padding:40px;border:1px solid rgba(126,232,196,0.14);position:relative;overflow:hidden;">
+            <div style="position:absolute;top:-40px;right:-40px;width:180px;height:180px;background:radial-gradient(circle,rgba(126,232,196,0.1) 0%,transparent 70%);pointer-events:none;"></div>
+
+            <svg width="28" height="20" fill="#7ee8c4" opacity="0.4" viewBox="0 0 28 20" style="margin-bottom:20px;"><path d="M0 20V12.8C0 5.6 4.4 1.2 13.2 0l1.6 2.8C10 3.6 7.6 5.6 7 9.2h5.6V20H0zm15.2 0V12.8C15.2 5.6 19.6 1.2 28.4 0L30 2.8c-4.8.8-7.2 2.8-7.8 6.4H28V20H15.2z"/></svg>
+
+            <p style="font-size:20px;font-weight:700;color:#7ee8c4;letter-spacing:-0.01em;line-height:1.4;margin-bottom:24px;">"Small businesses kept getting quoted $8,000 for sites that weren't worth half that. I figured I could do better — so I started building."</p>
+            <p style="font-size:11px;font-weight:600;color:#4a6a8a;letter-spacing:0.1em;text-transform:uppercase;">William Bryla &nbsp;—&nbsp; Founder, Vori Studios</p>
+
+            <div class="divider" style="margin:28px 0;"></div>
+
+            <div class="grid grid-cols-2 gap-6">
+              <div>
+                <p style="font-size:26px;font-weight:700;color:#f4f6f8;letter-spacing:-0.02em;">48hr</p>
+                <p style="font-size:11px;color:#6b8cae;margin-top:3px;">First draft delivery</p>
+              </div>
+              <div>
+                <p style="font-size:26px;font-weight:700;color:#f4f6f8;letter-spacing:-0.02em;">100%</p>
+                <p style="font-size:11px;color:#6b8cae;margin-top:3px;">Satisfaction guarantee</p>
+              </div>
+              <div>
+                <p style="font-size:26px;font-weight:700;color:#f4f6f8;letter-spacing:-0.02em;">&lt;2s</p>
+                <p style="font-size:11px;color:#6b8cae;margin-top:3px;">Load time target</p>
+              </div>
+              <div>
+                <p style="font-size:26px;font-weight:700;color:#f4f6f8;letter-spacing:-0.02em;">A+</p>
+                <p style="font-size:11px;color:#6b8cae;margin-top:3px;">SEO built-in from day one</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════ PRICING ════════════════════════════ -->
+  <section id="pricing" style="background:linear-gradient(180deg,rgba(26,58,107,0.18) 0%,rgba(26,58,107,0.06) 100%);border-top:1px solid rgba(255,255,255,0.04);" class="py-24 px-6 lg:px-12">
+    <div class="max-w-6xl mx-auto">
+
+      <p class="section-eyebrow fade-up">Pricing</p>
+      <h2 class="h2 fade-up" style="margin-bottom:10px;">Quoted upfront.</h2>
+      <p class="fade-up" style="font-size:14px;color:#6b8cae;line-height:1.75;max-width:460px;margin-bottom:40px;">You'll know exactly what you're getting — and what it costs — before you commit to anything.</p>
+
+      <!-- Maintenance banner -->
+      <div class="fade-up" style="display:flex;align-items:center;gap:16px;background:rgba(126,232,196,0.07);border:1px solid rgba(126,232,196,0.18);border-radius:12px;padding:18px 24px;margin-bottom:48px;">
+        <div style="width:36px;height:36px;background:rgba(126,232,196,0.12);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="16" height="16" fill="none" stroke="#7ee8c4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div>
+          <p style="font-size:13px;font-weight:600;color:#f4f6f8;">All plans include a <span style="color:#7ee8c4;">$200/month</span> maintenance fee</p>
+          <p style="font-size:12px;color:#6b8cae;margin-top:3px;line-height:1.6;">Keeps your site live, up to date, and running — bug fixes, content changes, and updates whenever you need them.</p>
+        </div>
+      </div>
+
+      <!-- Plan rows -->
+      <div style="display:flex;flex-direction:column;gap:0;">
+
+        <!-- Plan 01: Landing Page -->
+        <div class="fade-up" style="border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:40px 48px;background:#1a3a6b;margin-bottom:12px;display:grid;grid-template-columns:1fr 1fr auto;gap:32px;align-items:center;" id="plan-landing">
+          <div>
+            <p style="font-size:10px;font-weight:600;color:#6b8cae;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:10px;">01 &nbsp;/&nbsp; Landing Page Development</p>
+            <p style="font-size:clamp(36px,5vw,52px);font-weight:800;color:#f4f6f8;letter-spacing:-0.03em;line-height:1;">$500</p>
+            <p style="font-size:12px;color:#4a6a8a;margin-top:6px;">One-time fee &nbsp;+&nbsp; $200/month &nbsp;·&nbsp; 7-day timeline</p>
+          </div>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;">
+            <li style="display:flex;align-items:center;gap:10px;">
+              <div class="check"><svg width="9" height="9" fill="none" stroke="#7ee8c4" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <p style="font-size:13px;color:#aecde8;">Single landing page</p>
+            </li>
+            <li style="display:flex;align-items:center;gap:10px;">
+              <div class="check"><svg width="9" height="9" fill="none" stroke="#7ee8c4" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <p style="font-size:13px;color:#aecde8;">Contact form</p>
+            </li>
+            <li style="display:flex;align-items:center;gap:10px;">
+              <div class="check"><svg width="9" height="9" fill="none" stroke="#7ee8c4" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <p style="font-size:13px;color:#aecde8;">SEO basics</p>
+            </li>
+            <li style="display:flex;align-items:center;gap:10px;">
+              <div class="check"><svg width="9" height="9" fill="none" stroke="#7ee8c4" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <p style="font-size:13px;color:#aecde8;">Mobile responsive</p>
+            </li>
+          </ul>
+          <div>
+            <a href="contact.html" class="btn-ghost" style="white-space:nowrap;">Get Started</a>
+          </div>
+        </div>
+
+        <!-- Plan 02: Webpage Development -->
+        <div class="fade-up" style="border:1px solid rgba(126,232,196,0.22);border-radius:16px;padding:40px 48px;background:linear-gradient(140deg,#1a3a6b 0%,#1f4280 100%);margin-bottom:12px;display:grid;grid-template-columns:1fr 1fr auto;gap:32px;align-items:center;box-shadow:0 0 0 1px rgba(126,232,196,0.06),0 24px 80px rgba(0,0,0,0.3);position:relative;" id="plan-webpage">
+          <div style="position:absolute;top:-13px;left:48px;background:#7ee8c4;color:#112240;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:5px 16px;border-radius:100px;">Most Popular</div>
+          <div>
+            <p style="font-size:10px;font-weight:600;color:#7ee8c4;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:10px;opacity:0.75;">02 &nbsp;/&nbsp; Webpage Development</p>
+            <p style="font-size:clamp(36px,5vw,52px);font-weight:800;color:#f4f6f8;letter-spacing:-0.03em;line-height:1;">$1,000</p>
+            <p style="font-size:12px;color:#4a6a8a;margin-top:6px;">One-time fee &nbsp;+&nbsp; $200/month &nbsp;·&nbsp; 14-day delivery</p>
+          </div>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;">
+            <li style="display:flex;align-items:center;gap:10px;">
+              <div class="check"><svg width="9" height="9" fill="none" stroke="#7ee8c4" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <p style="font-size:13px;color:#aecde8;">Up to 5 pages</p>
+            </li>
+            <li style="display:flex;align-items:center;gap:10px;">
+              <div class="check"><svg width="9" height="9" fill="none" stroke="#7ee8c4" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <p style="font-size:13px;color:#aecde8;">Custom design system</p>
+            </li>
+            <li style="display:flex;align-items:center;gap:10px;">
+              <div class="check"><svg width="9" height="9" fill="none" stroke="#7ee8c4" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <p style="font-size:13px;color:#aecde8;">Blog and portfolio section</p>
+            </li>
+            <li style="display:flex;align-items:center;gap:10px;">
+              <div class="check"><svg width="9" height="9" fill="none" stroke="#7ee8c4" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <p style="font-size:13px;color:#aecde8;">Advanced SEO setup</p>
+            </li>
+          </ul>
+          <div>
+            <a href="contact.html" class="btn-primary" style="white-space:nowrap;">Get Started</a>
+          </div>
+        </div>
+
+        <!-- Plan 03: Ecommerce Store -->
+        <div class="fade-up" style="border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:40px 48px;background:#1a3a6b;margin-bottom:0;display:grid;grid-template-columns:1fr 1fr auto;gap:32px;align-items:center;" id="plan-ecommerce">
+          <div>
+            <p style="font-size:10px;font-weight:600;color:#6b8cae;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:10px;">03 &nbsp;/&nbsp; Ecommerce Store</p>
+            <p style="font-size:clamp(28px,4vw,42px);font-weight:800;color:#f4f6f8;letter-spacing:-0.025em;line-height:1.1;">Get a quote</p>
+            <p style="font-size:12px;color:#4a6a8a;margin-top:6px;">Quoted per project &nbsp;·&nbsp; custom timeline</p>
+          </div>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;">
+            <li style="display:flex;align-items:center;gap:10px;">
+              <div class="check"><svg width="9" height="9" fill="none" stroke="#7ee8c4" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <p style="font-size:13px;color:#aecde8;">E-commerce stores</p>
+            </li>
+            <li style="display:flex;align-items:center;gap:10px;">
+              <div class="check"><svg width="9" height="9" fill="none" stroke="#7ee8c4" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <p style="font-size:13px;color:#aecde8;">Web applications</p>
+            </li>
+            <li style="display:flex;align-items:center;gap:10px;">
+              <div class="check"><svg width="9" height="9" fill="none" stroke="#7ee8c4" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <p style="font-size:13px;color:#aecde8;">Custom integrations</p>
+            </li>
+            <li style="display:flex;align-items:center;gap:10px;">
+              <div class="check"><svg width="9" height="9" fill="none" stroke="#7ee8c4" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+              <p style="font-size:13px;color:#aecde8;">Priority turnaround</p>
+            </li>
+          </ul>
+          <div>
+            <a href="contact.html" class="btn-ghost" style="white-space:nowrap;">Get a Quote</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════ CTA ════════════════════════════ -->
+  <section id="contact" class="py-24 px-6 lg:px-12">
+    <div class="max-w-6xl mx-auto">
+      <div class="fade-up" style="background:linear-gradient(140deg,#1a3a6b 0%,#1f4280 55%,#1a3a6b 100%);border-radius:20px;padding:clamp(48px,6vw,88px) clamp(32px,5vw,80px);border:1px solid rgba(126,232,196,0.2);text-align:center;position:relative;overflow:hidden;">
+
+        <!-- Glow blobs -->
+        <div style="position:absolute;top:-80px;right:-80px;width:300px;height:300px;background:radial-gradient(circle,rgba(126,232,196,0.1) 0%,transparent 65%);pointer-events:none;"></div>
+        <div style="position:absolute;bottom:-100px;left:-60px;width:340px;height:340px;background:radial-gradient(circle,rgba(126,232,196,0.06) 0%,transparent 65%);pointer-events:none;"></div>
+
+        <p class="section-eyebrow" style="margin-bottom:16px;">Ready to Start?</p>
+        <h2 style="font-size:clamp(30px,4.5vw,52px);font-weight:700;color:#f4f6f8;letter-spacing:-0.025em;line-height:1.1;margin-bottom:16px;">
+          Let's build something<br><span style="color:#7ee8c4;">worth clicking.</span>
+        </h2>
+        <p style="font-size:14px;color:#6b8cae;line-height:1.75;max-width:400px;margin:0 auto 36px;">Send me a message and I'll get back to you within 24 hours. No contracts, no commitments — just tell me what you need.</p>
+        <a href="contact.html" class="btn-primary" style="font-size:14px;padding:16px 40px;">Send a Message</a>
+        <p style="font-size:11px;color:#4a6a8a;margin-top:16px;">Or email directly: <span style="color:#6b8cae;">williambryla07@gmail.com</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════ FOOTER ════════════════════════════ -->
+  <footer style="border-top:1px solid rgba(255,255,255,0.05);padding:40px 24px;" class="lg:px-12">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <a href="landing.html" style="text-decoration:none;">
+        <p style="font-size:16px;font-weight:700;color:#7ee8c4;letter-spacing:0.07em;">VORI STUDIOS</p>
+        <p style="font-size:8.5px;font-weight:500;color:#4a6a8a;letter-spacing:0.14em;margin-top:4px;">BUILT TO CONVERT, NOT JUST IMPRESS</p>
+      </a>
+      <p style="font-size:12px;color:#4a6a8a;">© 2026 Vori Studios. All rights reserved.</p>
+      <div style="display:flex;gap:24px;">
+        <a href="#services" class="nav-link">Services</a>
+        <a href="#process" class="nav-link">Process</a>
+        <a href="#pricing" class="nav-link">Pricing</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ════════════════════════════ JS ════════════════════════════ -->
+  <script>
+    // Sticky nav
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+
+    // Scroll-triggered fade-in
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry, idx) => {
+        if (entry.isIntersecting) {
+          // Stagger siblings that appear at the same time
+          const siblings = [...entry.target.parentElement.querySelectorAll('.fade-up:not(.in)')];
+          const delay = siblings.indexOf(entry.target) * 80;
+          setTimeout(() => entry.target.classList.add('in'), delay);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -48px 0px' });
+
+    document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Send a Message — Vori Studios</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * { font-family: 'Montserrat', sans-serif; box-sizing: border-box; }
+    body { background: #112240; color: #f4f6f8; overflow-x: hidden; min-height: 100vh; }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .page-bg {
+      background:
+        radial-gradient(ellipse 70% 55% at 80% 10%, rgba(126,232,196,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 55% 45% at 10% 90%, rgba(26,58,107,0.7) 0%, transparent 58%),
+        #112240;
+    }
+
+    #navbar { transition: background 0.35s ease, box-shadow 0.35s ease; }
+    #navbar.scrolled {
+      background: rgba(17,34,64,0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.05), 0 4px 24px rgba(0,0,0,0.3);
+    }
+
+    .nav-link {
+      font-size: 11px; font-weight: 600; color: #6b8cae;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      text-decoration: none; transition: color 0.2s ease;
+    }
+    .nav-link:hover { color: #7ee8c4; }
+    .nav-link:focus-visible { outline: 2px solid #7ee8c4; outline-offset: 4px; border-radius: 4px; }
+
+    .btn-primary {
+      display: inline-block; background: #7ee8c4; color: #112240;
+      font-weight: 700; font-size: 13px; letter-spacing: 0.06em;
+      text-decoration: none; border-radius: 10px; padding: 14px 28px;
+      transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s ease, background 0.2s ease;
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(126,232,196,0.3), 0 4px 10px rgba(0,0,0,0.2);
+      background: #9aefd4;
+    }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-primary:focus-visible { outline: 2px solid #7ee8c4; outline-offset: 3px; }
+
+    .section-eyebrow {
+      font-size: 10px; font-weight: 600; letter-spacing: 0.22em;
+      color: #6b8cae; text-transform: uppercase; margin-bottom: 12px;
+    }
+
+    .mint-line {
+      position: relative; display: inline; color: #7ee8c4;
+    }
+    .mint-line::after {
+      content: ''; position: absolute; bottom: -3px; left: 0;
+      width: 100%; height: 2.5px; background: #7ee8c4;
+      border-radius: 2px; opacity: 0.6;
+    }
+
+    /* ── Form fields ── */
+    .field-group { display: flex; flex-direction: column; gap: 6px; }
+
+    .field-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #6b8cae;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .field-label .required-star {
+      color: #7ee8c4;
+      margin-left: 3px;
+    }
+
+    .field-input,
+    .field-textarea {
+      background: rgba(26,58,107,0.6);
+      border: 1.5px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: #f4f6f8;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+      -webkit-appearance: none;
+    }
+    .field-input::placeholder,
+    .field-textarea::placeholder {
+      color: #3a5a7a;
+    }
+    .field-input:focus,
+    .field-textarea:focus {
+      border-color: rgba(126,232,196,0.5);
+      background: rgba(26,58,107,0.9);
+      box-shadow: 0 0 0 3px rgba(126,232,196,0.08);
+    }
+    .field-input:focus-visible,
+    .field-textarea:focus-visible {
+      border-color: rgba(126,232,196,0.5);
+    }
+
+    /* Invalid state after user interaction */
+    .field-input:not(:placeholder-shown):invalid,
+    .field-textarea:not(:placeholder-shown):invalid {
+      border-color: rgba(220,80,80,0.5);
+    }
+
+    .field-textarea {
+      resize: vertical;
+      min-height: 140px;
+      line-height: 1.65;
+    }
+
+    /* Submit button */
+    .btn-submit {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #7ee8c4;
+      color: #112240;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.06em;
+      border: none;
+      border-radius: 10px;
+      padding: 16px 36px;
+      cursor: pointer;
+      transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s ease, background 0.2s ease;
+    }
+    .btn-submit:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(126,232,196,0.3), 0 4px 10px rgba(0,0,0,0.2);
+      background: #9aefd4;
+    }
+    .btn-submit:active { transform: translateY(0); }
+    .btn-submit:focus-visible { outline: 2px solid #7ee8c4; outline-offset: 3px; border-radius: 10px; }
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Arrow icon */
+    .btn-arrow { transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1); }
+    .btn-submit:hover .btn-arrow { transform: translateX(4px); }
+
+    /* Success state */
+    #success-msg {
+      display: none;
+      background: rgba(126,232,196,0.08);
+      border: 1px solid rgba(126,232,196,0.25);
+      border-radius: 14px;
+      padding: 40px 36px;
+      text-align: center;
+    }
+    #success-msg.show { display: block; }
+
+    /* Fade up */
+    .fade-up {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.in { opacity: 1; transform: translateY(0); }
+
+    /* Info sidebar items */
+    .info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .info-item:first-child { padding-top: 0; }
+    .info-item:last-child { border-bottom: none; }
+    .info-icon {
+      width: 38px; height: 38px;
+      background: rgba(126,232,196,0.1);
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body class="page-bg">
+
+  <!-- ════════════════════════════ NAV ════════════════════════════ -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 px-6 lg:px-12 py-5">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <a href="landing.html" style="text-decoration:none;">
+        <p style="font-size:17px;font-weight:700;color:#7ee8c4;letter-spacing:0.07em;line-height:1;">VORI STUDIOS</p>
+        <p style="font-size:8px;font-weight:500;color:#4a6a8a;letter-spacing:0.15em;margin-top:3px;">BUILT TO CONVERT, NOT JUST IMPRESS</p>
+      </a>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="landing.html#services" class="nav-link">Services</a>
+        <a href="landing.html#process" class="nav-link">Process</a>
+        <a href="landing.html#pricing" class="nav-link">Pricing</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="contact.html" class="btn-primary" style="padding:10px 22px;font-size:12px;">Send a Message</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ════════════════════════════ CONTACT ════════════════════════════ -->
+  <main class="pt-36 pb-24 px-6 lg:px-12">
+    <div class="max-w-6xl mx-auto">
+
+      <!-- Header -->
+      <div class="max-w-xl fade-up" style="margin-bottom:56px;">
+        <p class="section-eyebrow" style="margin-bottom:16px;">Get in Touch</p>
+        <h1 style="font-size:clamp(36px,5.5vw,64px);font-weight:800;line-height:1.04;letter-spacing:-0.035em;color:#f4f6f8;margin-bottom:18px;">
+          Let's build something<br><span class="mint-line">worth clicking.</span>
+        </h1>
+        <p style="font-size:15px;color:#6b8cae;line-height:1.8;">
+          Fill out the form and I'll get back to you within 24 hours. No pitch, no pressure — just an honest conversation about what you need.
+        </p>
+      </div>
+
+      <!-- Two-column layout -->
+      <div class="grid md:grid-cols-[1fr_340px] gap-12 items-start">
+
+        <!-- Form -->
+        <div class="fade-up">
+          <form id="contact-form" novalidate>
+
+            <!-- Row: Name + Email -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;" class="form-row-split">
+
+              <div class="field-group">
+                <label class="field-label" for="name">
+                  Full Name<span class="required-star">*</span>
+                </label>
+                <input
+                  class="field-input"
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Jane Smith"
+                  required
+                  autocomplete="name"
+                >
+              </div>
+
+              <div class="field-group">
+                <label class="field-label" for="email">
+                  Email Address<span class="required-star">*</span>
+                </label>
+                <input
+                  class="field-input"
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="jane@company.com"
+                  required
+                  autocomplete="email"
+                >
+              </div>
+
+            </div>
+
+            <!-- Business -->
+            <div class="field-group" style="margin-bottom:16px;">
+              <label class="field-label" for="business">
+                Business Name<span class="required-star">*</span>
+              </label>
+              <input
+                class="field-input"
+                type="text"
+                id="business"
+                name="business"
+                placeholder="Your Business LLC"
+                required
+                autocomplete="organization"
+              >
+            </div>
+
+            <!-- Message -->
+            <div class="field-group" style="margin-bottom:28px;">
+              <label class="field-label" for="message">
+                Message
+              </label>
+              <textarea
+                class="field-textarea"
+                id="message"
+                name="message"
+                placeholder="Tell me a bit about your project — what you need, what's not working, or just what you're thinking. No wrong answers."
+              ></textarea>
+            </div>
+
+            <!-- Submit -->
+            <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+              <button type="submit" class="btn-submit" id="submit-btn">
+                Send Message
+                <svg class="btn-arrow" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </button>
+              <p style="font-size:11px;color:#3a5a7a;letter-spacing:0.04em;">
+                <span style="color:#7ee8c4;">*</span> Required fields
+              </p>
+            </div>
+
+          </form>
+
+          <!-- Success message -->
+          <div id="success-msg">
+            <div style="width:52px;height:52px;background:rgba(126,232,196,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
+              <svg width="22" height="22" fill="none" stroke="#7ee8c4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <p style="font-size:18px;font-weight:700;color:#f4f6f8;margin-bottom:10px;">Message sent.</p>
+            <p style="font-size:13px;color:#6b8cae;line-height:1.75;max-width:340px;margin:0 auto 24px;">I'll get back to you within 24 hours. Talk soon.</p>
+            <a href="landing.html" style="font-size:12px;color:#7ee8c4;text-decoration:none;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;">← Back to home</a>
+          </div>
+        </div>
+
+        <!-- Sidebar info -->
+        <div class="fade-up">
+          <div style="background:#1a3a6b;border-radius:16px;padding:32px;border:1px solid rgba(255,255,255,0.06);">
+
+            <div class="info-item">
+              <div class="info-icon">
+                <svg width="16" height="16" fill="none" stroke="#7ee8c4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div>
+                <p style="font-size:12px;font-weight:700;color:#f4f6f8;margin-bottom:4px;">Response time</p>
+                <p style="font-size:12px;color:#6b8cae;line-height:1.65;">I reply within 24 hours — usually same day.</p>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <div class="info-icon">
+                <svg width="16" height="16" fill="none" stroke="#7ee8c4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              </div>
+              <div>
+                <p style="font-size:12px;font-weight:700;color:#f4f6f8;margin-bottom:4px;">No commitment</p>
+                <p style="font-size:12px;color:#6b8cae;line-height:1.65;">First conversation is free and pressure-free. We'll figure out if it's a good fit.</p>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <div class="info-icon">
+                <svg width="16" height="16" fill="none" stroke="#7ee8c4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </div>
+              <div>
+                <p style="font-size:12px;font-weight:700;color:#f4f6f8;margin-bottom:4px;">Email</p>
+                <p style="font-size:12px;color:#6b8cae;line-height:1.65;">williambryla07@gmail.com</p>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <div class="info-icon">
+                <svg width="16" height="16" fill="none" stroke="#7ee8c4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <div>
+                <p style="font-size:12px;font-weight:700;color:#f4f6f8;margin-bottom:4px;">Based in</p>
+                <p style="font-size:12px;color:#6b8cae;line-height:1.65;">Fredericksburg, TX — serving clients everywhere.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ════════════════════════════ FOOTER ════════════════════════════ -->
+  <footer style="border-top:1px solid rgba(255,255,255,0.05);padding:40px 24px;" class="lg:px-12">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <div>
+        <p style="font-size:16px;font-weight:700;color:#7ee8c4;letter-spacing:0.07em;">VORI STUDIOS</p>
+        <p style="font-size:8.5px;font-weight:500;color:#4a6a8a;letter-spacing:0.14em;margin-top:4px;">BUILT TO CONVERT, NOT JUST IMPRESS</p>
+      </div>
+      <p style="font-size:12px;color:#4a6a8a;">© 2026 Vori Studios. All rights reserved.</p>
+      <div style="display:flex;gap:24px;">
+        <a href="landing.html#services" class="nav-link">Services</a>
+        <a href="landing.html#process" class="nav-link">Process</a>
+        <a href="landing.html#pricing" class="nav-link">Pricing</a>
+        <a href="about.html" class="nav-link">About</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Sticky nav
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+
+    // Fade in
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('in'), 80);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+
+    // Stack name+email on small screens
+    const row = document.querySelector('.form-row-split');
+    function checkWidth() {
+      if (row) row.style.gridTemplateColumns = window.innerWidth < 600 ? '1fr' : '1fr 1fr';
+    }
+    checkWidth();
+    window.addEventListener('resize', checkWidth);
+
+    // Form submission
+    const form = document.getElementById('contact-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const successMsg = document.getElementById('success-msg');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Validate required fields
+      const name = document.getElementById('name');
+      const email = document.getElementById('email');
+      const business = document.getElementById('business');
+      const required = [name, email, business];
+      let valid = true;
+
+      required.forEach(field => {
+        if (!field.value.trim() || (field.type === 'email' && !field.value.includes('@'))) {
+          field.style.borderColor = 'rgba(220,80,80,0.6)';
+          field.style.boxShadow = '0 0 0 3px rgba(220,80,80,0.08)';
+          valid = false;
+          field.addEventListener('input', () => {
+            field.style.borderColor = '';
+            field.style.boxShadow = '';
+          }, { once: true });
+        }
+      });
+
+      if (!valid) return;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+
+      try {
+        const res = await fetch('/api/send-message', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            fullName: document.getElementById('name').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            business: document.getElementById('business').value.trim(),
+            message: document.getElementById('message').value.trim(),
+          }),
+        });
+
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          form.style.display = 'none';
+          successMsg.classList.add('show');
+        } else {
+          throw new Error(data.error || 'Something went wrong.');
+        }
+      } catch (err) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send Message';
+        // Show inline error
+        let errEl = document.getElementById('form-error');
+        if (!errEl) {
+          errEl = document.createElement('p');
+          errEl.id = 'form-error';
+          errEl.style.cssText = 'font-size:13px;color:rgba(220,80,80,0.9);margin-top:12px;';
+          submitBtn.parentElement.appendChild(errEl);
+        }
+        errEl.textContent = err.message;
+      }
+    });
+  </script>
+</body>
+</html>
