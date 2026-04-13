@@ -201,6 +201,20 @@
       box-shadow: 0 0 0 1px rgba(126,232,196,0.15), 0 28px 80px rgba(0,0,0,0.4);
     }
 
+    /* ── Pricing mobile ── */
+    @media (max-width: 640px) {
+      #plan-landing, #plan-webpage, #plan-ecommerce {
+        grid-template-columns: 1fr !important;
+        padding: 28px 24px !important;
+        gap: 20px !important;
+      }
+      #plan-landing a, #plan-webpage a, #plan-ecommerce a {
+        display: block;
+        text-align: center;
+        width: 100%;
+      }
+    }
+
     /* ── Check icon ── */
     .check {
       width: 18px;
